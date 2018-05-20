@@ -1,30 +1,48 @@
 package org.zerhusen.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.sql.DataSource;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class PersonRestService {
-    private static final List<Person> persons;
+    private List<Person> persons;
 
-    static {
+    PersonRestService() {
         persons = new ArrayList<>();
         persons.add(new Person("Hello", "World"));
         persons.add(new Person("Foo", "Bar"));
     }
 
+    @PersistenceContext
+    private EntityManager em;
+
     @RequestMapping(path = "/persons", method = RequestMethod.GET)
-    public static List<Person> getPersons() {
+    public List<Person> getPersons() {
+        List resultList = em.createQuery(
+            "SELECT c FROM Authority c")
+//            .setParameter("custName", name)
+            .setMaxResults(10)
+            .getResultList();
+        resultList.forEach(x -> System.out.println("pgl results: " + x.toString()));
         return persons;
     }
 
     @RequestMapping(path = "/persons/{name}", method = RequestMethod.GET)
-    public static Person getPerson(@PathVariable("name") String name) {
+    public Person getPerson(@PathVariable("name") String name) {
         return persons.stream()
                 .filter(person -> name.equalsIgnoreCase(person.getName()))
                 .findAny().orElse(null);

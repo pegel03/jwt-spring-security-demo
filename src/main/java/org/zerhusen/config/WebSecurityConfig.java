@@ -50,7 +50,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoderBean() {
-        return new BCryptPasswordEncoder();
+       BCryptPasswordEncoder BCPE = new BCryptPasswordEncoder();
+        System.out.println("pgl 1: " + BCPE.encode("admin"));
+        System.out.println("pgl 2: " + BCPE.encode("gisteren"));
+//        return new BCryptPasswordEncoder();
+        return BCPE;
     }
 
     @Bean
@@ -72,8 +76,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             .authorizeRequests()
 
+            .antMatchers("/passkey/**/**").permitAll()
             // Un-secure H2 Database
-            .antMatchers("/h2-console/**/**").permitAll()
+            .antMatchers("/h2/**/**").permitAll()
 
             .antMatchers("/auth/**").permitAll()
             .anyRequest().authenticated();

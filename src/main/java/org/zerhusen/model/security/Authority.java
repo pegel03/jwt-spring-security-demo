@@ -4,6 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+import static java.util.stream.Collectors.joining;
+
 @Entity
 @Table(name = "AUTHORITY")
 public class Authority {
@@ -44,5 +46,10 @@ public class Authority {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    @Override
+    public String toString() {
+        return getUsers().stream().map(x -> x.getUsername()).collect(joining());
     }
 }
