@@ -1,0 +1,21 @@
+= Getting Started With Spring REST Docs
+
+Active version of project: {project-version}
+
+This is an example output for a service running at http://localhost:8080:
+
+== Persons
+
+=== Persons request
+include::{snippets}/persons/http-request.adoc[]
+
+=== Persons response
+include::{snippets}/persons/http-response.adoc[]
+
+=== Persons name request
+include::{snippets}/persons/name/http-request.adoc[]
+
+=== Persons name response
+include::{snippets}/persons/name/http-response.adoc[]
+
+As you can see the format is very simple, and in fact you always get the same message.
