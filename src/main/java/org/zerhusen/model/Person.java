@@ -1,4 +1,4 @@
-package org.zerhusen.rest;
+package org.zerhusen.model;
 
 /**
  * Created by stephan on 11.03.16.
